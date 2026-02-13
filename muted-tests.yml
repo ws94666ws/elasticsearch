@@ -425,6 +425,9 @@ tests:
 - class: org.elasticsearch.compute.operator.MMROperatorTests
   method: testSimpleLargeInput
   issue: https://github.com/elastic/elasticsearch/issues/142437
+- class: org.elasticsearch.xpack.esql.CsvTests
+  method: test {csv-spec:mmr.MMR with query vector variable}
+  issue: https://github.com/elastic/elasticsearch/issues/142438
 
 # Examples:
 #
