@@ -431,6 +431,9 @@ tests:
 - class: org.elasticsearch.xpack.esql.common.spatial.H3SphericalGeometryTests
   method: testIndexPoints
   issue: https://github.com/elastic/elasticsearch/issues/142439
+- class: org.elasticsearch.index.codec.storedfields.TSDBStoredFieldsFormatTests
+  method: testSyntheticId
+  issue: https://github.com/elastic/elasticsearch/issues/142393
 
 # Examples:
 #
