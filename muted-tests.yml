@@ -449,6 +449,9 @@ tests:
 - class: org.elasticsearch.xpack.esql.CsvTests
   method: test {csv-spec:mmr.MMR with byte vector and query vector}
   issue: https://github.com/elastic/elasticsearch/issues/142445
+- class: org.elasticsearch.xpack.esql.CsvTests
+  method: test {csv-spec:mmr.MMR with static query vector low lambda}
+  issue: https://github.com/elastic/elasticsearch/issues/142446
 
 # Examples:
 #
