@@ -428,6 +428,9 @@ tests:
 - class: org.elasticsearch.xpack.esql.CsvTests
   method: test {csv-spec:mmr.MMR with query vector variable}
   issue: https://github.com/elastic/elasticsearch/issues/142438
+- class: org.elasticsearch.xpack.esql.common.spatial.H3SphericalGeometryTests
+  method: testIndexPoints
+  issue: https://github.com/elastic/elasticsearch/issues/142439
 
 # Examples:
 #
