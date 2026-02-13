@@ -437,6 +437,9 @@ tests:
 - class: org.elasticsearch.search.aggregations.bucket.terms.TermsAggregatorTests
   method: testOrderByCardinality
   issue: https://github.com/elastic/elasticsearch/issues/142484
+- class: org.elasticsearch.blobcache.shared.SharedBytesTests
+  method: testMmapResourcesReleasedOnClose
+  issue: https://github.com/elastic/elasticsearch/issues/142488
 
 # Examples:
 #
