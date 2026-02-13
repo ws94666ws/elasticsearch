@@ -440,6 +440,9 @@ tests:
 - class: org.elasticsearch.xpack.esql.CsvTests
   method: test {csv-spec:mmr.Simple MMR diversification}
   issue: https://github.com/elastic/elasticsearch/issues/142441
+- class: org.elasticsearch.xpack.esql.core.util.RemoteClusterUtilsTests
+  method: testQualifyAndJoinIndices
+  issue: https://github.com/elastic/elasticsearch/issues/142442
 
 # Examples:
 #
