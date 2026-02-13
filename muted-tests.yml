@@ -443,6 +443,9 @@ tests:
 - class: org.elasticsearch.xpack.esql.core.util.RemoteClusterUtilsTests
   method: testQualifyAndJoinIndices
   issue: https://github.com/elastic/elasticsearch/issues/142442
+- class: org.elasticsearch.xpack.esql.CsvTests
+  method: test {csv-spec:mmr.MMR with static query vector high lambda}
+  issue: https://github.com/elastic/elasticsearch/issues/142444
 
 # Examples:
 #
