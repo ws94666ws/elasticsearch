@@ -443,6 +443,9 @@ tests:
 - class: org.elasticsearch.benchmark.vector.scorer.VectorScorerOSQBenchmarkTests
   method: testBulkScalarVsVectorized {p0=768 p1=2 p2=MMAP p3=MAXIMUM_INNER_PRODUCT}
   issue: https://github.com/elastic/elasticsearch/issues/142490
+- class: org.elasticsearch.benchmark.vector.scorer.VectorScorerOSQBenchmarkTests
+  method: testBulkScalarVsVectorized {p0=384 p1=4 p2=MMAP p3=MAXIMUM_INNER_PRODUCT}
+  issue: https://github.com/elastic/elasticsearch/issues/142491
 
 # Examples:
 #
