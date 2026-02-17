@@ -470,6 +470,9 @@ tests:
 - class: org.elasticsearch.benchmark.vector.scorer.VectorScorerOSQBenchmarkTests
   method: testBulkScalarVsVectorized {p0=768 p1=4 p2=MMAP p3=DOT_PRODUCT}
   issue: https://github.com/elastic/elasticsearch/issues/142589
+- class: org.elasticsearch.xpack.search.AsyncSearchTaskTests
+  method: testFatalFailureDuringFetch
+  issue: https://github.com/elastic/elasticsearch/issues/142626
 
 # Examples:
 #
