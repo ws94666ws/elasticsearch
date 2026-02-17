@@ -449,6 +449,9 @@ tests:
 - class: org.elasticsearch.index.IndexSettingsTests
   method: testSyntheticIdBadVersion
   issue: https://github.com/elastic/elasticsearch/issues/142508
+- class: org.elasticsearch.index.IndexSettingsTests
+  method: testSyntheticIdBadCodec
+  issue: https://github.com/elastic/elasticsearch/issues/142509
 
 # Examples:
 #
