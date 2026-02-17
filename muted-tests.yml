@@ -455,6 +455,9 @@ tests:
 - class: org.elasticsearch.index.IndexSettingsTests
   method: testSyntheticIdBadMode
   issue: https://github.com/elastic/elasticsearch/issues/142510
+- class: org.elasticsearch.index.IndexSettingsTests
+  method: testSyntheticIdCorrectSettings
+  issue: https://github.com/elastic/elasticsearch/issues/142507
 
 # Examples:
 #
