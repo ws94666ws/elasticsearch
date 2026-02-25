@@ -446,6 +446,9 @@ tests:
 - class: org.elasticsearch.index.mapper.IpFieldMapperTests
   method: testSyntheticSourceWithTranslogSnapshot
   issue: https://github.com/elastic/elasticsearch/issues/143123
+- class: org.elasticsearch.index.mapper.extras.ScaledFloatFieldMapperTests
+  method: testSyntheticSourceWithTranslogSnapshot
+  issue: https://github.com/elastic/elasticsearch/issues/143124
 
 # Examples:
 #
