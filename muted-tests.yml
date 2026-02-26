@@ -449,6 +449,9 @@ tests:
 - class: org.elasticsearch.index.mapper.extras.ScaledFloatFieldMapperTests
   method: testSyntheticSourceWithTranslogSnapshot
   issue: https://github.com/elastic/elasticsearch/issues/143124
+- class: org.elasticsearch.xpack.sql.qa.security.CliApiKeyIT
+  method: testCliConnectionWithApiKey
+  issue: https://github.com/elastic/elasticsearch/issues/143125
 
 # Examples:
 #
