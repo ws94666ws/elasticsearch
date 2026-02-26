@@ -458,6 +458,9 @@ tests:
 - class: org.elasticsearch.compute.aggregation.TimeSeriesFirstDocIdDeduplicationTests
   method: testSimpleWithCranky
   issue: https://github.com/elastic/elasticsearch/issues/143128
+- class: org.elasticsearch.index.mapper.DateFieldMapperTests
+  method: testSyntheticSourceWithTranslogSnapshot
+  issue: https://github.com/elastic/elasticsearch/issues/143129
 
 # Examples:
 #
