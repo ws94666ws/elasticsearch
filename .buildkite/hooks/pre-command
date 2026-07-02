@@ -122,11 +122,24 @@ if [[ "${USE_PI_AGENT:-}" == "true" ]]; then
   PI_AGENT_TAG="${PI_AGENT_TAG:-pi-agent-v1.0.18}"
   PI_AGENT_DIR="${HOME}/.local/pi-agent"
 
-  # Always fetch the admin token — used for bootstrap AND to give pi-agent
-  # write access to elastic/elasticsearch issues and labels.  The pipeline's
-  # VAULT_GITHUB_TOKEN is a GitHub App token scoped to this pipeline repo only;
-  # it cannot write issues/labels on elastic/elasticsearch.
-  GH_ADMIN_TOKEN=$(vault_with_retry read -field=gh_token secret/ci/elastic-elasticsearch/agentic-workflows)
+  # Fetch the token used for bootstrap (download pi-agent from breskeby fork).
+  # This is a PAT for the breskeby account stored in our pipeline's Vault path.
+  PI_BOOTSTRAP_TOKEN=$(vault_with_retry read -field=gh_token secret/ci/elastic-elasticsearch/agentic-workflows)
+
+  # For elastic/elasticsearch issue writes (comments + labels) we need a token
+  # that is SAML-authorized for the elastic org.  The breskeby PAT above is NOT
+  # authorized and is blocked by SAML enforcement.
+  #
+  # GH_ADMIN_TOKEN_PATH is injected by the gobld environment hook and points to
+  # the pipeline-specific admin GitHub token at:
+  #   secret/ci/buildkite/elastic/elasticsearch-agentic-workflow/github-admin
+  # This is the same mechanism used by other ES pipelines to write issues/PRs.
+  if [[ -n "${GH_ADMIN_TOKEN_PATH:-}" ]]; then
+    GH_ADMIN_TOKEN=$(vault_with_retry read -field=token "${GH_ADMIN_TOKEN_PATH}")
+  else
+    # Fallback: use the bootstrap token (may be SAML-blocked for issue writes)
+    GH_ADMIN_TOKEN="${PI_BOOTSTRAP_TOKEN}"
+  fi
 
   if [[ ! -x "${PI_AGENT_DIR}/bin/pi-agent.js" ]]; then
     echo "--- Bootstrapping pi-agent (${PI_AGENT_TAG})"
@@ -140,7 +153,7 @@ if [[ "${USE_PI_AGENT:-}" == "true" ]]; then
     # downstream JSON parse with an opaque "Unexpected end of JSON input".
     PI_RELEASE_API="https://api.github.com/repos/${PI_AGENT_REPO}/releases/tags/${PI_AGENT_TAG}"
     PI_RELEASE_HTTP=$(curl -sSL -w '%{http_code}' -o "${TMPDIR_DL}/release.json" \
-      -H "Authorization: Bearer ${GH_ADMIN_TOKEN}" \
+      -H "Authorization: Bearer ${PI_BOOTSTRAP_TOKEN}" \
       "${PI_RELEASE_API}")
     if [[ "${PI_RELEASE_HTTP}" != "200" ]]; then
       echo "Failed to fetch pi-agent release ${PI_AGENT_TAG} from ${PI_AGENT_REPO}" >&2
@@ -159,7 +172,7 @@ if [[ "${USE_PI_AGENT:-}" == "true" ]]; then
       " "${TMPDIR_DL}/release.json")
 
     curl -fsSL \
-      -H "Authorization: Bearer ${GH_ADMIN_TOKEN}" \
+      -H "Authorization: Bearer ${PI_BOOTSTRAP_TOKEN}" \
       -H "Accept: application/octet-stream" \
       "${PI_TARBALL_URL}" \
       -o "${TMPDIR_DL}/pi-agent.tgz"
@@ -181,7 +194,7 @@ if [[ "${USE_PI_AGENT:-}" == "true" ]]; then
   # apply labels on elastic/elasticsearch issues via `gh issue comment` and
   # `gh issue edit`.
   export GH_TOKEN="${GH_ADMIN_TOKEN}"
-  unset GH_ADMIN_TOKEN
+  unset GH_ADMIN_TOKEN PI_BOOTSTRAP_TOKEN
 fi
 # ── end pi-agent ──────────────────────────────────────────────────────────────
 
