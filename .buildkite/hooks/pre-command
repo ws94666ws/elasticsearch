@@ -122,15 +122,9 @@ if [[ "${USE_PI_AGENT:-}" == "true" ]]; then
   PI_AGENT_TAG="${PI_AGENT_TAG:-pi-agent-v1.0.20}"
   PI_AGENT_DIR="${HOME}/.local/pi-agent"
 
-  # Fetch the token used for bootstrap (download pi-agent from breskeby fork).
-  # This is a PAT for the breskeby account stored in our pipeline's Vault path.
-  PI_BOOTSTRAP_TOKEN=$(vault_with_retry read -field=gh_token secret/ci/elastic-elasticsearch/agentic-workflows)
-
-  # For elastic/elasticsearch issue writes (comments + labels) we need a token
-  # that is SAML-authorized for the elastic org.  The breskeby PAT (gh_token)
-  # is NOT authorized and is blocked by SAML enforcement.
-  # gh_admin_token is a separate PAT stored in the same Vault secret that has
-  # the necessary scopes and elastic SSO authorization.
+  # gh_admin_token is SAML-authorized for the elastic org — used both to
+  # download the pi-agent release from elastic/rene-bk-experiments and to
+  # write comments/labels on elastic/elasticsearch issues via gh.
   GH_ADMIN_TOKEN=$(vault_with_retry read -field=gh_admin_token secret/ci/elastic-elasticsearch/agentic-workflows)
 
   if [[ ! -x "${PI_AGENT_DIR}/bin/pi-agent.js" ]]; then
@@ -145,7 +139,7 @@ if [[ "${USE_PI_AGENT:-}" == "true" ]]; then
     # downstream JSON parse with an opaque "Unexpected end of JSON input".
     PI_RELEASE_API="https://api.github.com/repos/${PI_AGENT_REPO}/releases/tags/${PI_AGENT_TAG}"
     PI_RELEASE_HTTP=$(curl -sSL -w '%{http_code}' -o "${TMPDIR_DL}/release.json" \
-      -H "Authorization: Bearer ${PI_BOOTSTRAP_TOKEN}" \
+      -H "Authorization: Bearer ${GH_ADMIN_TOKEN}" \
       "${PI_RELEASE_API}")
     if [[ "${PI_RELEASE_HTTP}" != "200" ]]; then
       echo "Failed to fetch pi-agent release ${PI_AGENT_TAG} from ${PI_AGENT_REPO}" >&2
@@ -164,7 +158,7 @@ if [[ "${USE_PI_AGENT:-}" == "true" ]]; then
       " "${TMPDIR_DL}/release.json")
 
     curl -fsSL \
-      -H "Authorization: Bearer ${PI_BOOTSTRAP_TOKEN}" \
+      -H "Authorization: Bearer ${GH_ADMIN_TOKEN}" \
       -H "Accept: application/octet-stream" \
       "${PI_TARBALL_URL}" \
       -o "${TMPDIR_DL}/pi-agent.tgz"
@@ -186,7 +180,7 @@ if [[ "${USE_PI_AGENT:-}" == "true" ]]; then
   # apply labels on elastic/elasticsearch issues via `gh issue comment` and
   # `gh issue edit`.
   export GH_TOKEN="${GH_ADMIN_TOKEN}"
-  unset GH_ADMIN_TOKEN PI_BOOTSTRAP_TOKEN
+  unset GH_ADMIN_TOKEN
 
   # Bootstrap nono sandbox — wraps pi-agent with kernel-level least-privilege
   # isolation. install.sh is idempotent; skip if already present.
