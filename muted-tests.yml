@@ -856,3 +856,6 @@ tests:
 - class: org.elasticsearch.xpack.esql.expression.predicate.operator.arithmetic.DivTests
   method: testCrankyEvaluateBlockWithoutNulls {TestCase=<long>, <dense_vector>}
   issue: https://github.com/elastic/elasticsearch/issues/152795
+- class: org.elasticsearch.xpack.stateless.reshard.StatelessReshardIT
+  method: testSourceRelocationDuringReshard
+  issue: https://github.com/elastic/elasticsearch/issues/152800
