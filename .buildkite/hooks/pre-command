@@ -136,7 +136,7 @@ if [[ "${USE_PI_AGENT:-}" == "true" ]]; then
   if [[ ! -x "${PI_AGENT_DIR}/bin/pi-agent.js" ]]; then
     echo "--- Bootstrapping pi-agent (${PI_AGENT_TAG})"
 
-    PI_AGENT_REPO="${PI_AGENT_REPO:-breskeby/rene-bk-experiments}"
+    PI_AGENT_REPO="${PI_AGENT_REPO:-elastic/rene-bk-experiments}"
 
     TMPDIR_DL="$(mktemp -d)"
 
