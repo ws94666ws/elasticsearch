@@ -844,3 +844,6 @@ tests:
   issue: https://github.com/elastic/elasticsearch/issues/152723
 - class: org.elasticsearch.xpack.esql.qa.mixed.AllSupportedFieldsIT
   issue: https://github.com/elastic/elasticsearch/pull/152637
+- class: org.elasticsearch.simdvec.internal.vectorization.MSBitToBitESNextOSQVectorsScorerTests
+  method: testSymmetric1BitDotProductMatchesNativeWhenSupported
+  issue: https://github.com/elastic/elasticsearch/issues/150155
