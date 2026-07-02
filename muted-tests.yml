@@ -844,3 +844,6 @@ tests:
 - class: org.elasticsearch.xpack.stateless.StatelessHollowIndexShardsIT
   method: testCloseWhileShardsAreHollowed
   issue: https://github.com/elastic/elasticsearch/issues/151861
+- class: org.elasticsearch.xpack.encryption.KeyRotationIT
+  method: testConsecutiveRotations
+  issue: https://github.com/elastic/elasticsearch/issues/152472
