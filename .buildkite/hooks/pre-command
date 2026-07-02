@@ -127,19 +127,11 @@ if [[ "${USE_PI_AGENT:-}" == "true" ]]; then
   PI_BOOTSTRAP_TOKEN=$(vault_with_retry read -field=gh_token secret/ci/elastic-elasticsearch/agentic-workflows)
 
   # For elastic/elasticsearch issue writes (comments + labels) we need a token
-  # that is SAML-authorized for the elastic org.  The breskeby PAT above is NOT
-  # authorized and is blocked by SAML enforcement.
-  #
-  # GH_ADMIN_TOKEN_PATH is injected by the gobld environment hook and points to
-  # the pipeline-specific admin GitHub token at:
-  #   secret/ci/buildkite/elastic/elasticsearch-agentic-workflow/github-admin
-  # This is the same mechanism used by other ES pipelines to write issues/PRs.
-  if [[ -n "${GH_ADMIN_TOKEN_PATH:-}" ]]; then
-    GH_ADMIN_TOKEN=$(vault_with_retry read -field=token "${GH_ADMIN_TOKEN_PATH}")
-  else
-    # Fallback: use the bootstrap token (may be SAML-blocked for issue writes)
-    GH_ADMIN_TOKEN="${PI_BOOTSTRAP_TOKEN}"
-  fi
+  # that is SAML-authorized for the elastic org.  The breskeby PAT (gh_token)
+  # is NOT authorized and is blocked by SAML enforcement.
+  # gh_admin_token is a separate PAT stored in the same Vault secret that has
+  # the necessary scopes and elastic SSO authorization.
+  GH_ADMIN_TOKEN=$(vault_with_retry read -field=gh_admin_token secret/ci/elastic-elasticsearch/agentic-workflows)
 
   if [[ ! -x "${PI_AGENT_DIR}/bin/pi-agent.js" ]]; then
     echo "--- Bootstrapping pi-agent (${PI_AGENT_TAG})"
