@@ -832,3 +832,6 @@ tests:
 - class: org.elasticsearch.xpack.encryption.KeyRotationIT
   method: testEachInstallOrRotationAddsExactlyOneNewKey
   issue: https://github.com/elastic/elasticsearch/issues/152776
+- class: org.elasticsearch.transport.RemoteClusterClientTests
+  method: testGetConnectionFailureCompletesOnResponseExecutor
+  issue: https://github.com/elastic/elasticsearch/issues/152779
