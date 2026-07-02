@@ -77,7 +77,8 @@ Session is initialising…" \
 NONO_ARGS=(
   --profile "${HOME}/.local/pi-agent/nono-pi-agent.json" # vault block + bundled policy (ships with pi-agent distro)
   --allow-cwd                                        # elasticsearch checkout (build directory)
-  --allow "${HOME}/.local"                            # pi-agent installation and Node.js runtime
+  --allow "${HOME}/.local/bin"                         # pi-agent symlink
+  --allow "${HOME}/.local/pi-agent"                    # pi-agent installation and Node.js runtime
   --allow "${HOME}/.pi"                               # pi-agent config and skill cache
   --allow "${SESSION_DIR}"                            # session persistence (JSONL snapshots)
   --startup-timeout 0                                 # non-interactive — skip TUI-readiness check
