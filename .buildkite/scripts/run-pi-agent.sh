@@ -65,13 +65,98 @@ buildkite-agent annotate \
 Session is initialising…" \
   --context "pi-agent-progress" --style "info"
 
-# ── Run pi-agent ───────────────────────────────────────────────────────────────
+# ── Run pi-agent (nono sandbox) ────────────────────────────────────────────────
+# pi-agent drives git, gh, Gradle, and LLM APIs — run it with least-privilege
+# filesystem access. Network is left open (LiteLLM, GitHub, Buildkite, GE all
+# need outbound HTTPS). --startup-timeout 0 skips the TUI-detection heuristic
+# since pi-agent is non-interactive. --silent suppresses the nono banner so CI
+# logs stay readable.
+# Listing any --allow-domain activates nono's L7 proxy and implicitly blocks
+# every other host — including the Vault server (secrets.elastic.co) whose
+# token is injected by the pre-command hook before this sandbox starts.
+NONO_ARGS=(
+  --profile "${HOME}/.local/pi-agent/nono-pi-agent.json" # vault block + bundled policy (ships with pi-agent distro)
+  --allow-cwd                                        # elasticsearch checkout (build directory)
+  --allow "${HOME}/.local"                            # pi-agent installation and Node.js runtime
+  --allow "${HOME}/.pi"                               # pi-agent config and skill cache
+  --allow "${SESSION_DIR}"                            # session persistence (JSONL snapshots)
+  --startup-timeout 0                                 # non-interactive — skip TUI-readiness check
+  --silent                                            # suppress nono banner/summary in CI logs
+  --allow-domain elastic.litellm-prod.ai             # LiteLLM proxy (LLM calls)
+  --allow-domain api.github.com                      # GitHub API (gh commands)
+  --allow-domain github.com                          # GitHub web/clone
+  --allow-domain api.buildkite.com                   # Buildkite API (bk tools)
+  --allow-domain gradle-enterprise.elastic.co        # Gradle Enterprise (build scan reads)
+)
+
 PI_EXIT=0
 case "${WORKFLOW}" in
-  test-analysis)         pi-agent analyze --issue-url "${ISSUE_URL}" || PI_EXIT=$? ;;
-  pull-request-fix)      pi-agent fix-pr  --pr-url    "${PR_URL}"    || PI_EXIT=$? ;;
-  pull-request-creation) pi-agent create  --issue-url "${ISSUE_URL}" || PI_EXIT=$? ;;
+  test-analysis)
+    nono run "${NONO_ARGS[@]}" -- pi-agent analyze --issue-url "${ISSUE_URL}" || PI_EXIT=$? ;;
+  pull-request-fix)
+    nono run "${NONO_ARGS[@]}" -- pi-agent fix-pr  --pr-url    "${PR_URL}"    || PI_EXIT=$? ;;
+  pull-request-creation)
+    nono run "${NONO_ARGS[@]}" -- pi-agent create  --issue-url "${ISSUE_URL}" || PI_EXIT=$? ;;
 esac
+
+# ── Nono sandbox summary ─────────────────────────────────────────────────────
+# Post a Buildkite annotation listing everything nono blocked during this run.
+# The audit log is written by default; we fetch the most-recent session (CI
+# serialises to concurrency=1 so there is no ambiguity) and extract denials.
+_nono_audit_annotation() {
+  command -v nono &>/dev/null || return
+  command -v jq   &>/dev/null || return
+
+  local session_id
+  session_id=$(
+    nono audit list --recent 1 --json 2>/dev/null \
+      | jq -r 'if type == "array" then .[0].id else (.sessions // [])[0].id end // empty' \
+      2>/dev/null
+  )
+  [[ -z "${session_id:-}" ]] && return
+
+  local audit_json
+  audit_json=$(nono audit show "${session_id}" --json 2>/dev/null) || return
+
+  local denials net_blocks
+  denials=$(
+    echo "${audit_json}" | jq -r '
+      [ .audit_events[]?
+        | select(.decision == "deny"
+              or ((.type // "") | test("den(y|ied)"; "i")))
+      ]
+      | if length == 0 then empty
+        else "**Capability denials (\(length)):**\n"
+             + (map("- `" + (.command // .path // .target // "?") + "`") | join("\n"))
+        end
+    ' 2>/dev/null
+  )
+
+  net_blocks=$(
+    echo "${audit_json}" | jq -r '
+      [ .network_events[]?
+        | select(.blocked == true or .status == 403 or .action == "deny")
+      ]
+      | if length == 0 then empty
+        else "**Network blocks (\(length)):**\n"
+             + (map("- `" + (.host // .url // "?") + "`") | join("\n"))
+        end
+    ' 2>/dev/null
+  )
+
+  [[ -z "${denials:-}" && -z "${net_blocks:-}" ]] && return
+
+  local body=""
+  [[ -n "${denials:-}" ]]    && body+="${denials}"
+  [[ -n "${net_blocks:-}" ]] && body+=$'\n\n'"${net_blocks}"
+
+  buildkite-agent annotate \
+    "### 🛡️ nono sandbox — blocked calls (session \`${session_id}\`)
+
+${body}" \
+    --context "nono-sandbox-summary" --style "warning" 2>/dev/null || true
+}
+_nono_audit_annotation
 
 # ── Final annotation ───────────────────────────────────────────────────────────
 if [[ $PI_EXIT -eq 0 ]]; then
