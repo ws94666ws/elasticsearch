@@ -71,23 +71,14 @@ Session is initialising…" \
 # need outbound HTTPS). --startup-timeout 0 skips the TUI-detection heuristic
 # since pi-agent is non-interactive. --silent suppresses the nono banner so CI
 # logs stay readable.
-# Listing any --allow-domain activates nono's L7 proxy and implicitly blocks
-# every other host — including the Vault server (secrets.elastic.co) whose
-# token is injected by the pre-command hook before this sandbox starts.
+# Filesystem grants, network allowlist, and vault command block live in the
+# bundled nono-pi-agent.json profile (ships with the pi-agent distro).
+# Only SESSION_DIR is dynamic at runtime and must stay here as a CLI flag.
 NONO_ARGS=(
-  --profile "${HOME}/.local/pi-agent/nono-pi-agent.json" # vault block + bundled policy (ships with pi-agent distro)
-  --allow-cwd                                        # elasticsearch checkout (build directory)
-  --allow "${HOME}/.local/bin"                         # pi-agent symlink
-  --allow "${HOME}/.local/pi-agent"                    # pi-agent installation and Node.js runtime
-  --allow "${HOME}/.pi"                               # pi-agent config and skill cache
-  --allow "${SESSION_DIR}"                            # session persistence (JSONL snapshots)
-  --startup-timeout 0                                 # non-interactive — skip TUI-readiness check
-  --silent                                            # suppress nono banner/summary in CI logs
-  --allow-domain elastic.litellm-prod.ai             # LiteLLM proxy (LLM calls)
-  --allow-domain api.github.com                      # GitHub API (gh commands)
-  --allow-domain github.com                          # GitHub web/clone
-  --allow-domain api.buildkite.com                   # Buildkite API (bk tools)
-  --allow-domain gradle-enterprise.elastic.co        # Gradle Enterprise (build scan reads)
+  --profile "${HOME}/.local/pi-agent/nono-pi-agent.json"
+  --allow "${SESSION_DIR}"   # runtime path for JSONL session snapshots; not known at profile-authoring time
+  --startup-timeout 0        # non-interactive — skip TUI-readiness check
+  --silent                   # suppress nono banner/summary in CI logs
 )
 
 PI_EXIT=0
