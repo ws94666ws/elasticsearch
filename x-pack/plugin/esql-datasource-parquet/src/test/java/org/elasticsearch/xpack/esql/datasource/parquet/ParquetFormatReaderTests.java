@@ -4676,6 +4676,95 @@ public class ParquetFormatReaderTests extends ESTestCase {
         assertEquals(List.of(200_000L, 3_000_000_000L, 4_000_000_000L), andSurvivors);
     }
 
+    // esql-planning#1030 follow-up: aggregate (MIN/MAX) pushdown reads a uint32 column's row-group
+    // statistics straight off the Parquet footer, which stores the raw INT32 bit pattern. Without
+    // widening, a value above Integer.MAX_VALUE (e.g. 4_000_000_000) sign-extends into a negative
+    // long, breaking both the SourceStatistics SPI contract (values must match ESQL's in-memory
+    // LONG representation) and any downstream consumer (aggregate pushdown, split-skip
+    // classification). Exercises both statistics paths: extractStatistics (metadata) and
+    // buildRowGroupStats (discoverSplitRanges).
+    public void testUint32StatisticsWidenToUnsignedLong() throws Exception {
+        var schema = Types.buildMessage()
+            .required(PrimitiveType.PrimitiveTypeName.INT32)
+            .as(LogicalTypeAnnotation.intType(32, false)) // unsigned
+            .named("u32")
+            .named("test_schema");
+
+        long[] u32Values = { 50_000L, 100_000L, 200_000L, 3_000_000_000L, 4_000_000_000L };
+        byte[] data = createParquetFile(schema, f -> {
+            List<Group> groups = new ArrayList<>();
+            for (long value : u32Values) {
+                groups.add(f.newGroup().append("u32", (int) value));
+            }
+            return groups;
+        });
+        StorageObject storageObject = createStorageObject(data);
+        ParquetFormatReader reader = new ParquetFormatReader(blockFactory);
+
+        // --- extractStatistics path (metadata) ---
+        SourceMetadata metadata = reader.metadata(storageObject);
+        var colStats = metadata.statistics().orElseThrow().columnStatistics().orElseThrow().get("u32");
+        assertEquals("min must widen to the true unsigned magnitude, not sign-extend", Optional.of(50_000L), colStats.minValue());
+        assertEquals("max must widen to the true unsigned magnitude, not sign-extend", Optional.of(4_000_000_000L), colStats.maxValue());
+
+        // --- buildRowGroupStats path (discoverSplitRanges) ---
+        List<RangeAwareFormatReader.SplitRange> ranges = reader.discoverSplitRanges(storageObject);
+        assertFalse("expected at least one split range", ranges.isEmpty());
+        for (RangeAwareFormatReader.SplitRange range : ranges) {
+            Map<String, Object> stats = range.statistics();
+            assertEquals(50_000L, stats.get("_stats.columns.u32.min"));
+            assertEquals(4_000_000_000L, stats.get("_stats.columns.u32.max"));
+        }
+    }
+
+    // Fast-follow to the uint32 case above: a uint64 column's row-group statistics are also raw
+    // physical INT64 values, but unlike uint32 the fix isn't a widen — ESQL's UNSIGNED_LONG is
+    // already a 64-bit type, so it stores values sign-flip-encoded (value ^ 2^63) inside a signed
+    // LongBlock (see testUnsignedLong64SignFlipEncoding). Row-group stats must go through that same
+    // encoding, or a MIN/MAX pushdown answer (and split-skip classification) would compare the raw
+    // on-disk bit pattern against an encoded query literal, comparing values from two different
+    // domains. Covers both sides of the encoding boundary (0 -> Long.MIN_VALUE, 2^64-1 ->
+    // Long.MAX_VALUE) and exercises both statistics paths: extractStatistics (metadata) and
+    // buildRowGroupStats (discoverSplitRanges).
+    public void testUint64StatisticsSignFlipEncode() throws Exception {
+        var schema = Types.buildMessage()
+            .required(PrimitiveType.PrimitiveTypeName.INT64)
+            .as(LogicalTypeAnnotation.intType(64, false)) // unsigned
+            .named("u64")
+            .named("test_schema");
+
+        // Raw physical INT64 bit patterns as parquet-mr would store them: 2^64-1 round-trips through
+        // a Java long as -1L (0xFFFFFFFFFFFFFFFF), the unsigned maximum.
+        long[] u64Values = { 0L, 100_000L, Long.MAX_VALUE, -1L };
+        byte[] data = createParquetFile(schema, f -> {
+            List<Group> groups = new ArrayList<>();
+            for (long value : u64Values) {
+                groups.add(f.newGroup().append("u64", value));
+            }
+            return groups;
+        });
+        StorageObject storageObject = createStorageObject(data);
+        ParquetFormatReader reader = new ParquetFormatReader(blockFactory);
+
+        long expectedMin = 0L ^ Long.MIN_VALUE;
+        long expectedMax = -1L ^ Long.MIN_VALUE;
+
+        // --- extractStatistics path (metadata) ---
+        SourceMetadata metadata = reader.metadata(storageObject);
+        var colStats = metadata.statistics().orElseThrow().columnStatistics().orElseThrow().get("u64");
+        assertEquals("min must be sign-flip encoded, not the raw physical bit pattern", Optional.of(expectedMin), colStats.minValue());
+        assertEquals("max must be sign-flip encoded, not the raw physical bit pattern", Optional.of(expectedMax), colStats.maxValue());
+
+        // --- buildRowGroupStats path (discoverSplitRanges) ---
+        List<RangeAwareFormatReader.SplitRange> ranges = reader.discoverSplitRanges(storageObject);
+        assertFalse("expected at least one split range", ranges.isEmpty());
+        for (RangeAwareFormatReader.SplitRange range : ranges) {
+            Map<String, Object> stats = range.statistics();
+            assertEquals(expectedMin, stats.get("_stats.columns.u64.min"));
+            assertEquals(expectedMax, stats.get("_stats.columns.u64.max"));
+        }
+    }
+
     public void testLargeUnsignedLong() throws Exception {
         var schema = Types.buildMessage()
             .required(PrimitiveType.PrimitiveTypeName.INT64)
