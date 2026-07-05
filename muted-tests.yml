@@ -832,3 +832,6 @@ tests:
 - class: org.elasticsearch.compute.operator.fuse.LinearScoreEvalOperatorTests
   method: testMultivaluedGroupColumnProducesWarning
   issue: https://github.com/elastic/elasticsearch/issues/152929
+- class: org.elasticsearch.xpack.esql.analysis.AnalyzerUnmappedGoldenTests
+  method: testSingleTypeAggregateMetricDoubleUnmappedNoCastLoadOnly
+  issue: https://github.com/elastic/elasticsearch/issues/152930
