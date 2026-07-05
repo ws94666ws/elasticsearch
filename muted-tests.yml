@@ -823,3 +823,6 @@ tests:
 - class: org.elasticsearch.repositories.azure.AzureBlobContainerRetriesTests
   method: testWriteLargeBlob
   issue: https://github.com/elastic/elasticsearch/issues/152914
+- class: org.elasticsearch.reindex.management.ReindexCancelRelocationIT
+  method: testCancelReindexCancelsRelocatedTaskByOriginalTaskId
+  issue: https://github.com/elastic/elasticsearch/issues/152925
