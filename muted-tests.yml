@@ -794,3 +794,6 @@ tests:
 - class: org.elasticsearch.xpack.esql.qa.parquet.ParquetTestingIT
   method: testParquetFile {alltypes_plain.snappy}
   issue: https://github.com/elastic/elasticsearch/issues/153048
+- class: org.elasticsearch.upgrades.CcrRollingUpgradeIT
+  method: testAutoFollowing
+  issue: https://github.com/elastic/elasticsearch/issues/153049
