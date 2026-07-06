@@ -803,3 +803,6 @@ tests:
 - class: org.elasticsearch.upgrades.CcrRollingUpgradeIT
   method: testCannotFollowLeaderInUpgradedCluster
   issue: https://github.com/elastic/elasticsearch/issues/153051
+- class: org.elasticsearch.upgrades.CcrRollingUpgradeIT
+  method: testBiDirectionalIndexFollowing
+  issue: https://github.com/elastic/elasticsearch/issues/153052
