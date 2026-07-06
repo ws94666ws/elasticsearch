@@ -797,3 +797,6 @@ tests:
 - class: org.elasticsearch.upgrades.CcrRollingUpgradeIT
   method: testAutoFollowing
   issue: https://github.com/elastic/elasticsearch/issues/153049
+- class: org.elasticsearch.upgrades.CcrRollingUpgradeIT
+  method: testUniDirectionalIndexFollowing
+  issue: https://github.com/elastic/elasticsearch/issues/153050
