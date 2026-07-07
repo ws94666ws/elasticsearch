@@ -806,3 +806,6 @@ tests:
 - class: org.elasticsearch.upgrades.CcrRollingUpgradeIT
   method: testBiDirectionalIndexFollowing
   issue: https://github.com/elastic/elasticsearch/issues/153052
+- class: org.elasticsearch.xpack.esql.action.NdJsonCrossFileScalarObjectConflictIT
+  method: testDefaultSettingsFailsOnCrossFileScalarObjectConflict
+  issue: https://github.com/elastic/elasticsearch/issues/153054
