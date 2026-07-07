@@ -644,15 +644,6 @@ tests:
 - class: org.elasticsearch.index.store.BytesReadHeaderIT
   method: testMultipleIndicesAccumulateBytesRead
   issue: https://github.com/elastic/elasticsearch/issues/152425
-- class: org.elasticsearch.upgrades.RecoveryIT
-  method: testRelocationWithConcurrentIndexing {upgradedNodes=2}
-  issue: https://github.com/elastic/elasticsearch/issues/152471
-- class: org.elasticsearch.upgrades.RecoveryIT
-  method: testRelocationWithConcurrentIndexing {upgradedNodes=1}
-  issue: https://github.com/elastic/elasticsearch/issues/152486
-- class: org.elasticsearch.upgrades.RecoveryIT
-  method: testRelocationWithConcurrentIndexing {upgradedNodes=3}
-  issue: https://github.com/elastic/elasticsearch/issues/152494
 - class: org.elasticsearch.xpack.ccr.CcrSeqNoPruningIT
   method: testSeqNoPartiallyRetainedByCcrLease
   issue: https://github.com/elastic/elasticsearch/issues/152498
