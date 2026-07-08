@@ -791,3 +791,6 @@ tests:
 - class: org.elasticsearch.xpack.esql.qa.ndjson.NdJsonCompressedFormatSpecIT
   method: test {csv-spec:external-basic.fileMetadataFilterPathLike [ndjson.bz2/S3]}
   issue: https://github.com/elastic/elasticsearch/issues/153182
+- class: org.elasticsearch.xpack.esql.datasources.StreamingParallelParsingCoordinatorTests
+  method: testConcurrentProducerLoopsOnSharedPoolDoNotDeadlock
+  issue: https://github.com/elastic/elasticsearch/issues/153183
