@@ -803,3 +803,6 @@ tests:
 - class: org.elasticsearch.xpack.esql.ccq.AllSupportedFieldsIT
   method: testFetchAll {pref=null mode=logsdb}
   issue: https://github.com/elastic/elasticsearch/issues/153189
+- class: org.elasticsearch.xpack.esql.ccq.AllSupportedFieldsIT
+  method: testFetchDenseVector {pref=null mode=logsdb}
+  issue: https://github.com/elastic/elasticsearch/issues/153190
