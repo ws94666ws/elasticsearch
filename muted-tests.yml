@@ -788,3 +788,6 @@ tests:
 - class: org.elasticsearch.xpack.inference.RegionPolicyAuthorizationRefreshIT
   method: testPutRegionPolicy_WhenDeniedEndpointReferencedByIndexOnly_OmitsEmptyPipelinesField
   issue: https://github.com/elastic/elasticsearch/issues/153180
+- class: org.elasticsearch.xpack.inference.RegionPolicyAuthorizationRefreshIT
+  method: testPutRegionPolicy_WithAllowedRegions_TriggersAuthorizationRefresh
+  issue: https://github.com/elastic/elasticsearch/issues/153181
