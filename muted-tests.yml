@@ -824,3 +824,6 @@ tests:
 - class: org.elasticsearch.xpack.esql.ccq.AllSupportedFieldsIT
   method: testFetchAggregateMetricDouble {pref=NONE mode=logsdb}
   issue: https://github.com/elastic/elasticsearch/issues/153196
+- class: org.elasticsearch.xpack.esql.qa.parquet.ParquetTestingIT
+  method: testParquetFile {delta_byte_array}
+  issue: https://github.com/elastic/elasticsearch/issues/153198
