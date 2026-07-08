@@ -851,3 +851,6 @@ tests:
 - class: org.elasticsearch.xpack.stateless.commits.StatelessClusterIntegrityStressIT
   method: testRandomActivities
   issue: https://github.com/elastic/elasticsearch/issues/147841
+- class: org.elasticsearch.xpack.esql.qa.parquet.ParquetTestingIT
+  method: testParquetFile {float16_zeros_and_nans}
+  issue: https://github.com/elastic/elasticsearch/issues/153214
