@@ -815,3 +815,6 @@ tests:
 - class: org.elasticsearch.xpack.esql.ccq.AllSupportedFieldsIT
   method: testFetchAllOnlyFromRemotes {pref=NONE mode=logsdb}
   issue: https://github.com/elastic/elasticsearch/issues/153193
+- class: org.elasticsearch.xpack.esql.ccq.AllSupportedFieldsIT
+  method: testFetchDenseVector {pref=NONE mode=logsdb}
+  issue: https://github.com/elastic/elasticsearch/issues/153194
