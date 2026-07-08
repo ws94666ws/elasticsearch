@@ -809,3 +809,6 @@ tests:
 - class: org.elasticsearch.xpack.esql.ccq.AllSupportedFieldsIT
   method: testFetchAggregateMetricDouble {pref=null mode=logsdb}
   issue: https://github.com/elastic/elasticsearch/issues/153191
+- class: org.elasticsearch.xpack.esql.ccq.AllSupportedFieldsIT
+  method: testFetchAllOnlyFromRemotes {pref=null mode=logsdb}
+  issue: https://github.com/elastic/elasticsearch/issues/153192
