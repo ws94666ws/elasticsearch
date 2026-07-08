@@ -794,3 +794,6 @@ tests:
 - class: org.elasticsearch.xpack.esql.datasources.StreamingParallelParsingCoordinatorTests
   method: testConcurrentProducerLoopsOnSharedPoolDoNotDeadlock
   issue: https://github.com/elastic/elasticsearch/issues/153183
+- class: org.elasticsearch.xpack.esql.CsvIT
+  method: test {csv-spec:stats_sparkline.sparklineInInlineStatsByMvField}
+  issue: https://github.com/elastic/elasticsearch/issues/153184
