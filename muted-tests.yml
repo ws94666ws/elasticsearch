@@ -830,3 +830,6 @@ tests:
 - class: org.elasticsearch.xpack.esql.qa.parquet.ParquetTestingIT
   method: testParquetFile {lz4_raw_compressed}
   issue: https://github.com/elastic/elasticsearch/issues/153199
+- class: org.elasticsearch.xpack.esql.qa.parquet.ParquetTestingIT
+  method: testParquetFile {plain-dict-uncompressed-checksum}
+  issue: https://github.com/elastic/elasticsearch/issues/153200
