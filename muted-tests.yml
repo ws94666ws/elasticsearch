@@ -782,3 +782,6 @@ tests:
 - class: org.elasticsearch.xpack.esql.ccq.MultiClusterSpecUnmappedLoadIT
   method: test {csv-spec:unmapped-load.loadUnmappedFieldTypeConflictAcrossSubqueriesIsUnsupported}
   issue: https://github.com/elastic/elasticsearch/issues/153177
+- class: org.elasticsearch.xpack.esql.ccq.MultiClusterSpecApproximationIT
+  method: test {csv-spec:approximation.Lookup join before and after stats by}
+  issue: https://github.com/elastic/elasticsearch/issues/153178
