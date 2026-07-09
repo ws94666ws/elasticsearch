@@ -847,3 +847,6 @@ tests:
 - class: org.elasticsearch.xpack.esql.qa.parquet.ParquetTestingIT
   method: testParquetFile {int32_with_null_pages}
   issue: https://github.com/elastic/elasticsearch/issues/153350
+- class: org.elasticsearch.xpack.esql.qa.parquet.ParquetTestingIT
+  method: testParquetFile {dict-page-offset-zero}
+  issue: https://github.com/elastic/elasticsearch/issues/153351
