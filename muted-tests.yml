@@ -820,3 +820,6 @@ tests:
 - class: org.elasticsearch.packaging.test.PackageUpgradeTests
   method: test21CheckUpgradedVersion
   issue: https://github.com/elastic/elasticsearch/issues/153329
+- class: org.elasticsearch.xpack.esql.qa.parquet.ParquetTestingIT
+  method: testParquetFile {delta_encoding_required_column}
+  issue: https://github.com/elastic/elasticsearch/issues/153336
