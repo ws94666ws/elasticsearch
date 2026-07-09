@@ -817,3 +817,6 @@ tests:
 - class: org.elasticsearch.xpack.esql.qa.parquet.ParquetTestingIT
   method: testParquetFile {datapage_v2.snappy}
   issue: https://github.com/elastic/elasticsearch/issues/153325
+- class: org.elasticsearch.packaging.test.PackageUpgradeTests
+  method: test21CheckUpgradedVersion
+  issue: https://github.com/elastic/elasticsearch/issues/153329
