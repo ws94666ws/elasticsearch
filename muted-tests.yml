@@ -805,3 +805,6 @@ tests:
 - class: org.elasticsearch.upgrades.IndexingIT
   method: testIndexing
   issue: https://github.com/elastic/elasticsearch/issues/140728
+- class: org.elasticsearch.upgrades.MlAssignmentPlannerUpgradeIT
+  method: testMlAssignmentPlannerUpgrade
+  issue: https://github.com/elastic/elasticsearch/issues/153417
