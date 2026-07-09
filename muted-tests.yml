@@ -853,3 +853,6 @@ tests:
 - class: org.elasticsearch.xpack.esql.qa.parquet.ParquetTestingIT
   method: testParquetFile {fixed_length_byte_array}
   issue: https://github.com/elastic/elasticsearch/issues/153360
+- class: org.elasticsearch.xpack.esql.qa.parquet.ParquetTestingIT
+  method: testParquetFile {column_chunk_key_value_metadata}
+  issue: https://github.com/elastic/elasticsearch/issues/153361
