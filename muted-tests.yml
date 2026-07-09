@@ -823,3 +823,6 @@ tests:
 - class: org.elasticsearch.xpack.esql.qa.parquet.ParquetTestingIT
   method: testParquetFile {delta_encoding_required_column}
   issue: https://github.com/elastic/elasticsearch/issues/153336
+- class: org.elasticsearch.xpack.esql.qa.parquet.ParquetTestingIT
+  method: testParquetFile {data_index_bloom_encoding_with_length}
+  issue: https://github.com/elastic/elasticsearch/issues/153337
