@@ -826,3 +826,6 @@ tests:
 - class: org.elasticsearch.xpack.esql.qa.parquet.ParquetTestingIT
   method: testParquetFile {data_index_bloom_encoding_with_length}
   issue: https://github.com/elastic/elasticsearch/issues/153337
+- class: org.elasticsearch.xpack.esql.qa.parquet.ParquetTestingIT
+  method: testParquetFile {alltypes_dictionary}
+  issue: https://github.com/elastic/elasticsearch/issues/153338
