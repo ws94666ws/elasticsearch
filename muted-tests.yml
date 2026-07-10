@@ -802,3 +802,6 @@ tests:
 - class: org.elasticsearch.xpack.esql.qa.ndjson.NdJsonCompressedFormatSpecIT
   method: test {csv-spec:external-multivalue.mvMinFromSplit [ndjson.zst/GCS]}
   issue: https://github.com/elastic/elasticsearch/issues/153471
+- class: org.elasticsearch.xpack.stateless.StatelessHollowIndexShardsIT
+  method: testRegistrationOnBccWithLastHollowCommitAndDifferentPrimaryTerm
+  issue: https://github.com/elastic/elasticsearch/issues/153472
