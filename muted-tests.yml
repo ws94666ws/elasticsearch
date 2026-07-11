@@ -799,3 +799,6 @@ tests:
 - class: org.elasticsearch.xpack.transform.checkpoint.TransformGetCheckpointIT
   method: testGetCheckpointTimeoutExceeded
   issue: https://github.com/elastic/elasticsearch/issues/150934
+- class: org.elasticsearch.xpack.esql.CsvIT
+  method: test {csv-spec:k8s-timeseries.firstAndLastWithNullSort}
+  issue: https://github.com/elastic/elasticsearch/issues/153555
