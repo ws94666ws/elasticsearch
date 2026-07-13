@@ -841,3 +841,6 @@ tests:
 - class: org.elasticsearch.xpack.esql.qa.ndjson.NdJsonCompressedFormatSpecIT
   method: test {csv-spec:external-basic.selectAdditionalColumns [ndjson.gz/GCS]}
   issue: https://github.com/elastic/elasticsearch/issues/153612
+- class: org.elasticsearch.xpack.esql.ccq.MultiClusterSpecK8sTimeseriesIT
+  method: test {csv-spec:k8s-timeseries.firstAndLastWithNullSort}
+  issue: https://github.com/elastic/elasticsearch/issues/153613
