@@ -826,3 +826,6 @@ tests:
 - class: org.elasticsearch.xpack.encryption.KeyRotationIT
   method: testRotationCompletesWithMultipleHandlers
   issue: https://github.com/elastic/elasticsearch/issues/153747
+- class: org.elasticsearch.repositories.gcs.GoogleCloudStorageBlobContainerStatsTests
+  method: testResumableWrite
+  issue: https://github.com/elastic/elasticsearch/issues/153748
