@@ -835,3 +835,6 @@ tests:
 - class: org.elasticsearch.xpack.esql.generator.CompositeFunctionGeneratorTests
   method: testCompositeExpressionReturnsNullWhenNoColumnsMatch
   issue: https://github.com/elastic/elasticsearch/issues/153817
+- class: org.elasticsearch.xpack.esql.action.S3ManagedIdentityAuthIT
+  method: testManagedIdentityAuthReadsRowsAndUsesWorkloadIdentityCredential
+  issue: https://github.com/elastic/elasticsearch/issues/153820
