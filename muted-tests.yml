@@ -811,3 +811,6 @@ tests:
 - class: org.elasticsearch.simdvec.internal.IndexInputUtilsTests
   method: testES92ConstructorRejectsUnwrappedFilterIndexInput
   issue: https://github.com/elastic/elasticsearch/issues/153738
+- class: org.elasticsearch.simdvec.internal.IndexInputUtilsTests
+  method: testES92ConstructorAcceptsMMapInput
+  issue: https://github.com/elastic/elasticsearch/issues/153739
