@@ -844,3 +844,6 @@ tests:
 - class: org.elasticsearch.xpack.esql.qa.multi_node.EsqlSpecChangePointIT
   method: test {csv-spec:change_point.values int column with all nulls}
   issue: https://github.com/elastic/elasticsearch/issues/153871
+- class: org.elasticsearch.xpack.dlm.frozen.DLMFrozenTransitionDisruptionIT
+  method: testMasterFailoverDuringMarkReadOnly
+  issue: https://github.com/elastic/elasticsearch/issues/153882
