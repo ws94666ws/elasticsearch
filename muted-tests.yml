@@ -817,3 +817,6 @@ tests:
 - class: org.elasticsearch.simdvec.internal.IndexInputUtilsTests
   method: testES92ConstructorAcceptsDirectAccessInput
   issue: https://github.com/elastic/elasticsearch/issues/153740
+- class: org.elasticsearch.simdvec.internal.IndexInputUtilsTests
+  method: testES92ConstructorAcceptsPlainInput
+  issue: https://github.com/elastic/elasticsearch/issues/153741
