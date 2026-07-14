@@ -880,3 +880,6 @@ tests:
 - class: org.elasticsearch.xpack.dlm.frozen.DLMFrozenTransitionDisruptionIT
   method: testMasterFailoverDuringMarkReadOnly
   issue: https://github.com/elastic/elasticsearch/issues/153882
+- class: org.elasticsearch.xpack.stateless.commits.VirtualBatchedCompoundCommitsIT
+  method: testGetVirtualBatchedCompoundCommitChunkFailureWhenIndexCloses
+  issue: https://github.com/elastic/elasticsearch/issues/153888
