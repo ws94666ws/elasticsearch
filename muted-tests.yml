@@ -856,3 +856,6 @@ tests:
 - class: org.elasticsearch.xpack.ccr.CcrSeqNoPruningIT
   method: testSeqNoPartiallyRetainedByCcrLease
   issue: https://github.com/elastic/elasticsearch/issues/152498
+- class: org.elasticsearch.xpack.stateless.cache.SearchShardRecoveryWarmingTests
+  method: testSearchRecoveryWarmingListenerRecordsTimedOutOutcome
+  issue: https://github.com/elastic/elasticsearch/issues/154033
