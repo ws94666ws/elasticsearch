@@ -892,3 +892,6 @@ tests:
 - class: org.elasticsearch.xpack.dlm.frozen.DLMFrozenTransitionDisruptionIT
   method: testMasterFailoverDuringClone
   issue: https://github.com/elastic/elasticsearch/issues/153909
+- class: org.elasticsearch.xpack.esql.CsvIT
+  method: test {csv-spec:approximation.User-generated approximation column name}
+  issue: https://github.com/elastic/elasticsearch/issues/153922
