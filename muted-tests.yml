@@ -655,3 +655,6 @@ tests:
 - class: org.elasticsearch.xpack.esql.action.FromDatasetIT
   method: testWildcardSpanningIndexAndDatasetSucceeds
   issue: https://github.com/elastic/elasticsearch/issues/154200
+- class: org.elasticsearch.ingest.geoip.FullClusterRestartIT
+  method: testGeoIpDatabaseConfigurations {cluster=UPGRADED}
+  issue: https://github.com/elastic/elasticsearch/issues/154214
