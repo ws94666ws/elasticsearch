@@ -859,3 +859,6 @@ tests:
 - class: org.elasticsearch.xpack.stateless.cache.SearchShardRecoveryWarmingTests
   method: testSearchRecoveryWarmingListenerRecordsTimedOutOutcome
   issue: https://github.com/elastic/elasticsearch/issues/154033
+- class: org.elasticsearch.xpack.security.QueryableReservedRolesIT
+  method: testConfiguredReservedRolesAfterClosingAndOpeningIndex
+  issue: https://github.com/elastic/elasticsearch/issues/154037
