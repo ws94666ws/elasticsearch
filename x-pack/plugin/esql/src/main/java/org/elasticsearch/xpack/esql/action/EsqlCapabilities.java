@@ -3346,7 +3346,7 @@ public class EsqlCapabilities {
         /**
          * Support for the {@code HIGHLIGHT} command.
          */
-        HIGHLIGHT_V4(Build.current().isSnapshot()),
+        HIGHLIGHT_V5(Build.current().isSnapshot()),
 
         /**
          * Support for PromQL {@code histogram_quantile()} over classic histograms with {@code le} buckets.
