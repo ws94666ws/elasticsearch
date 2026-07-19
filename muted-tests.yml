@@ -646,3 +646,6 @@ tests:
 - class: org.elasticsearch.xpack.esql.optimizer.PhysicalPlanOptimizerTests
   method: testMaxExpressionDepth_nestedAbs_minOverflow {default}
   issue: https://github.com/elastic/elasticsearch/issues/154341
+- class: org.elasticsearch.xpack.esql.plugin.MatchFunctionIT
+  method: testMatchInLookupJoinWithKeywordJoinField
+  issue: https://github.com/elastic/elasticsearch/issues/154357
