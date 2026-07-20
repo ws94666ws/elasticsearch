@@ -655,3 +655,6 @@ tests:
 - class: org.elasticsearch.xpack.esql.optimizer.PhysicalPlanOptimizerTests
   method: testMaxExpressionDepth_nestedAbs_maxAllowed {default}
   issue: https://github.com/elastic/elasticsearch/issues/154380
+- class: org.elasticsearch.xpack.dlm.frozen.DLMFrozenTransitionDisruptionIT
+  method: testMasterFailoverDuringSnapshot
+  issue: https://github.com/elastic/elasticsearch/issues/154395
