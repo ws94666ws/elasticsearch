@@ -577,3 +577,6 @@ tests:
 - class: org.elasticsearch.xpack.remotecluster.RemoteClusterSecurityCcrMigrationIT
   method: testRcs1SetupAgain
   issue: https://github.com/elastic/elasticsearch/issues/154539
+- class: org.elasticsearch.xpack.remotecluster.RemoteClusterSecurityCcrMigrationIT
+  method: testRcs2Setup
+  issue: https://github.com/elastic/elasticsearch/issues/154540
