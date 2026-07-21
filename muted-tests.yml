@@ -604,3 +604,6 @@ tests:
 - class: org.elasticsearch.xpack.esql.action.CrossClusterEnrichUnavailableClustersIT
   method: testEnrichWithHostsPolicyAndDisconnectedRemotesWithSkipUnavailableFalse
   issue: https://github.com/elastic/elasticsearch/issues/154533
+- class: org.elasticsearch.smoketest.SmokeTestMultiNodeClientYamlTestSuiteIT
+  method: "test {yaml=mapping/70_columnar_prefix_dynamic_properties/logsdb_columnar: no prefix_properties when dynamic is only set at root level}"
+  issue: https://github.com/elastic/elasticsearch/issues/154537
