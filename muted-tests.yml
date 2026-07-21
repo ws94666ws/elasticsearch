@@ -502,21 +502,12 @@ tests:
 - class: org.elasticsearch.xpack.esql.action.S3ManagedIdentityAuthIT
   method: testQueryFailsWhenWrongCredentialIsUsed
   issue: https://github.com/elastic/elasticsearch/issues/153821
-- class: org.elasticsearch.xpack.dlm.frozen.DLMFrozenTransitionDisruptionIT
-  method: testMasterFailoverDuringMountSnapshot
-  issue: https://github.com/elastic/elasticsearch/issues/153823
-- class: org.elasticsearch.xpack.dlm.frozen.DLMFrozenTransitionDisruptionIT
-  method: testMasterFailoverDuringCleanup
-  issue: https://github.com/elastic/elasticsearch/issues/153174
 - class: org.elasticsearch.action.RejectionActionIT
   method: testSimulatedSearchRejectionLoad
   issue: https://github.com/elastic/elasticsearch/issues/153848
 - class: org.elasticsearch.xpack.stateless.StatelessAbortRunningMergesOnRelocationIT
   method: testConcurrentForceMergeIsNotAborted
   issue: https://github.com/elastic/elasticsearch/issues/153854
-- class: org.elasticsearch.xpack.dlm.frozen.DLMFrozenTransitionDisruptionIT
-  method: testMasterFailoverDuringMarkReadOnly
-  issue: https://github.com/elastic/elasticsearch/issues/153882
 - class: org.elasticsearch.xpack.stateless.commits.VirtualBatchedCompoundCommitsIT
   method: testGetVirtualBatchedCompoundCommitChunkFailureWhenIndexCloses
   issue: https://github.com/elastic/elasticsearch/issues/153888
@@ -529,9 +520,6 @@ tests:
 - class: org.elasticsearch.xpack.esql.qa.mixed.MixedClusterEsqlSpecFuseIT
   method: test {csv-spec:fuse.fuseWithRowLinearAndMultiValueScoreColumn}
   issue: https://github.com/elastic/elasticsearch/issues/153902
-- class: org.elasticsearch.xpack.dlm.frozen.DLMFrozenTransitionDisruptionIT
-  method: testMasterFailoverDuringClone
-  issue: https://github.com/elastic/elasticsearch/issues/153909
 - class: org.elasticsearch.xpack.esql.CsvIT
   method: test {csv-spec:inlinestats.afterWhere}
   issue: https://github.com/elastic/elasticsearch/issues/152591
@@ -583,18 +571,12 @@ tests:
 - class: org.elasticsearch.xpack.esql.optimizer.PhysicalPlanOptimizerTests
   method: testMaxExpressionDepth_nestedAbs_maxAllowed {default}
   issue: https://github.com/elastic/elasticsearch/issues/154380
-- class: org.elasticsearch.xpack.dlm.frozen.DLMFrozenTransitionDisruptionIT
-  method: testMasterFailoverDuringSnapshot
-  issue: https://github.com/elastic/elasticsearch/issues/154395
 - class: org.elasticsearch.bootstrap.SpawnerNoBootstrapTests
   method: testControllerSpawnGatedBySettings
   issue: https://github.com/elastic/elasticsearch/issues/154291
 - class: org.elasticsearch.backwards.MixedClusterClientYamlTestSuiteIT
   method: "test {p0=mapping/70_columnar_prefix_dynamic_properties/logsdb_columnar: multiple sub-objects with all three supported dynamic values}"
   issue: https://github.com/elastic/elasticsearch/issues/154464
-- class: org.elasticsearch.xpack.dlm.frozen.DLMFrozenTransitionDisruptionIT
-  method: testMasterFailoverDuringForceMerge
-  issue: https://github.com/elastic/elasticsearch/issues/154505
 - class: org.elasticsearch.reindex.ReindexerTests
   method: testRemoteReindexClosesRemoteInfoOnNormalCompletion
   issue: https://github.com/elastic/elasticsearch/issues/154294
