@@ -610,3 +610,6 @@ tests:
 - class: org.elasticsearch.upgrades.SearchableSnapshotsRollingUpgradeIT
   method: testBlobStoreCacheWithPartialCopyInMixedVersions
   issue: https://github.com/elastic/elasticsearch/issues/154617
+- class: org.elasticsearch.upgrades.TokenBackwardsCompatibilityIT
+  method: testAccessTokensWorkInMixedCluster
+  issue: https://github.com/elastic/elasticsearch/issues/154618
