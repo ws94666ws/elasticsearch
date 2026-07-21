@@ -595,3 +595,6 @@ tests:
 - class: org.elasticsearch.xpack.dlm.frozen.DLMFrozenTransitionDisruptionIT
   method: testMasterFailoverDuringForceMerge
   issue: https://github.com/elastic/elasticsearch/issues/154505
+- class: org.elasticsearch.reindex.ReindexerTests
+  method: testRemoteReindexClosesRemoteInfoOnNormalCompletion
+  issue: https://github.com/elastic/elasticsearch/issues/154294
