@@ -601,3 +601,6 @@ tests:
 - class: org.elasticsearch.upgrades.SearchableSnapshotsRollingUpgradeIT
   method: testMountPartialCopyAndRecoversCorrectly
   issue: https://github.com/elastic/elasticsearch/issues/154614
+- class: org.elasticsearch.upgrades.SearchableSnapshotsRollingUpgradeIT
+  method: testBlobStoreCacheWithFullCopyInMixedVersions
+  issue: https://github.com/elastic/elasticsearch/issues/154615
