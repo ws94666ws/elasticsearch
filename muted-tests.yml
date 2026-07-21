@@ -586,3 +586,6 @@ tests:
 - class: org.elasticsearch.cluster.coordination.votingonly.VotingOnlyNodePluginTests
   method: testBootstrapOnlyVotingOnlyNodes
   issue: https://github.com/elastic/elasticsearch/issues/154563
+- class: org.elasticsearch.search.fetch.chunk.TransportFetchPhaseCoordinationActionTests
+  method: testDoExecuteReleasesRegistrationOnLastChunkDeserializationFailure
+  issue: https://github.com/elastic/elasticsearch/issues/154568
