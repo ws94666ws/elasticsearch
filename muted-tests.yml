@@ -574,3 +574,6 @@ tests:
 - class: org.elasticsearch.smoketest.SmokeTestMultiNodeClientYamlTestSuiteIT
   method: "test {yaml=mapping/70_columnar_prefix_dynamic_properties/logsdb_columnar: no prefix_properties when dynamic is only set at root level}"
   issue: https://github.com/elastic/elasticsearch/issues/154537
+- class: org.elasticsearch.xpack.remotecluster.RemoteClusterSecurityCcrMigrationIT
+  method: testRcs1SetupAgain
+  issue: https://github.com/elastic/elasticsearch/issues/154539
