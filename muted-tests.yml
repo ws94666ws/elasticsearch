@@ -631,3 +631,6 @@ tests:
 - class: org.elasticsearch.xpack.stateless.StatelessHollowIndexShardsIT
   method: testStressWithRelocationOrObjectStoreFailures
   issue: https://github.com/elastic/elasticsearch/issues/154655
+- class: org.elasticsearch.http.netty4.Netty4HttpServerTransportTests
+  method: testLargeRequestIsNeverDispatched
+  issue: https://github.com/elastic/elasticsearch/issues/154657
