@@ -583,9 +583,6 @@ tests:
 - class: org.elasticsearch.xpack.stateless.snapshots.StatelessSnapshotResiliencyWithEnabledTests
   method: testSuccessfulSnapshotWithConcurrentDynamicMappingUpdates
   issue: https://github.com/elastic/elasticsearch/issues/154731
-- class: org.elasticsearch.compute.operator.topn.ParallelTopNOperatorTests
-  method: testConcurrentReleaseOfSharedDictionaryThroughRealOperator
-  issue: https://github.com/elastic/elasticsearch/issues/154775
 - class: org.elasticsearch.xpack.esql.action.ExternalCsvHivePartitionedIT
   method: testCommaSeparatedResourceFirstFileWinsRoundTrips
   issue: https://github.com/elastic/elasticsearch/issues/154662
