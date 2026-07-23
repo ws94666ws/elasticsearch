@@ -556,9 +556,6 @@ tests:
 - class: org.elasticsearch.xpack.stateless.commits.StatelessCommitServiceTests
   method: testFullyUploadedListenerDoesNotFireBeforeItsCopyCompletes
   issue: https://github.com/elastic/elasticsearch/issues/154606
-- class: org.elasticsearch.blobcache.common.SparseFileTrackerTests
-  method: testClaimedGapsDoNotExtendBeyondRequestedRangeWhenCaller2FillsFirst
-  issue: https://github.com/elastic/elasticsearch/issues/154462
 - class: org.elasticsearch.upgrades.SearchableSnapshotsRollingUpgradeIT
   method: testMountPartialCopyAndRecoversCorrectly
   issue: https://github.com/elastic/elasticsearch/issues/154614
