@@ -606,3 +606,6 @@ tests:
 - class: org.elasticsearch.xpack.core.ml.datafeed.DatafeedUpdateTests
   method: testIsUserInitiatedProjectRoutingChangeWhenRoutingUnchangedShouldReturnFalse
   issue: https://github.com/elastic/elasticsearch/issues/154910
+- class: org.elasticsearch.xpack.core.ml.datafeed.DatafeedUpdateTests
+  method: testIsUserInitiatedProjectRoutingChangeWhenRoutingWidensShouldReturnTrue
+  issue: https://github.com/elastic/elasticsearch/issues/154911
