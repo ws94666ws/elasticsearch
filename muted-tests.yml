@@ -597,3 +597,6 @@ tests:
 - class: org.elasticsearch.cluster.routing.ShardRoutingTests
   method: testEqualsIgnoringVersion
   issue: https://github.com/elastic/elasticsearch/issues/154886
+- class: org.elasticsearch.xpack.core.ml.datafeed.DatafeedUpdateTests
+  method: testIsUserInitiatedProjectRoutingChangeWhenRoutingNarrowsShouldReturnTrue
+  issue: https://github.com/elastic/elasticsearch/issues/154908
